@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageIT</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="">
+    <div class="container w-[100vw] h-[100vh] mx-auto p-10 flex flex-col">
+        <div class="title w-full text-center pb-10">
+            <span class="font-bold text-5xl font-serif text-gray-800">ManageIT</span>
+        </div>
+        <div class="cards w-full h-fit grid md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+            <div class="Shirt w-[320px] border-2 border-gray-200 bg-gray-100 rounded-lg">
+                <img src="./assets/Shirt.png" alt="" class="p-4 w-[300px] h-[300px]">
+                <div class="count flex px-10 py-4 text-xl font-bold">
+                    <span>Count : &nbsp;&nbsp;</span>
+                    <span id="countShirt"></span>
+                </div>
+                <div class="button w-full flex justify-between px-10">
+                    <a href="scannerInShirt.html"><button
+                            class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">ADD</button></a>
+                    <a href="scannerOutShirt.html"><button
+                            class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">REMOVE</button></a>
+                </div>
+            </div>
+            <div class="Shirt w-[320px] border-2 border-gray-200 bg-gray-100 rounded-lg">
+                <img src="./assets/Jeans.png" alt="" class="p-4 w-[300px] h-[300px]">
+                <div class="count flex px-10 py-4 text-xl font-bold">
+                    <span>Count : &nbsp;&nbsp;</span>
+                    <span id="countJeans"></span>
+                </div>
+                <div class="button w-full flex justify-between px-10">
+                    <a href="scannerInJeans.html"><button
+                            class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">ADD</button></a>
+                    <a href="scannerOutJeans.html"><button
+                            class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">REMOVE</button></a>
+                </div>
+            </div>
+            <!-- <div class="Shirt w-[320px] border-2 border-gray-200 bg-gray-100 rounded-lg">
+                <img src="./assets/t-shirt.png" alt="" class="p-4 w-[300px] h-[300px]">
+                <div class="button w-full flex justify-between px-10">
+                    <button class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">ADD</button>
+                    <button class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">REMOVE</button>
+                </div>
+            </div>
+            <div class="Shirt w-[320px] border-2 border-gray-200 bg-gray-100 rounded-lg">
+                <img src="./assets/hoodies.png" alt="" class="p-4 w-[300px] h-[300px]">
+                <div class="button w-full flex justify-between px-10">
+                    <button class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">ADD</button>
+                    <button class="bg-blue-400 cursor-pointer hover:bg-blue-600 text-gray-100 w-24 font-medium py-1 rounded-lg mb-3">REMOVE</button>
+                </div>
+            </div> -->
+        </div>
+        <a href="index.html" class="py-10"><button
+                class="bg-red-500 w-32 py-1 text-white font-semibold rounded-lg">Logout</button></a>
+    </div>
+
+
+    <script type="module">
+        const shirtCount = document.getElementById('countShirt');
+        const JeansCount = document.getElementById('countJeans');
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getDatabase, ref, set, child, update, remove, push, get, DataSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXYIEZ0faQEzPn6ruXjKw33NGcat6R7BQ",
+            authDomain: "manageit-56e1b.firebaseapp.com",
+            projectId: "manageit-56e1b",
+            storageBucket: "manageit-56e1b.appspot.com",
+            messagingSenderId: "144486754288",
+            appId: "1:144486754288:web:fc33265057504744655f35",
+            measurementId: "G-N2KH094ZDP"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const JeansProductsRef = ref(db, "Jeans");
+        const ShirtProductsRef = ref(db, "Shirt");
+
+        get(ShirtProductsRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    // Use Object.keys to get an array of keys and then get the length
+                    const count = Object.keys(snapshot.val()).length;
+                    shirtCount.innerText = count;
+                } else {
+                    console.log('No products found.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error getting product count:', error);
+            });
+
+        get(JeansProductsRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    // Use Object.keys to get an array of keys and then get the length
+                    const count = Object.keys(snapshot.val()).length;
+                    JeansCount.innerText = count;
+                } else {
+                    console.log('No products found.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error getting product count:', error);
+            });
+    </script>
+</body>
+
+</html>
